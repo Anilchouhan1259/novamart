@@ -1,4 +1,6 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
+const rawBase = (import.meta.env.VITE_API_BASE_URL || '/api').trim();
+// Strip any trailing slash so /api and /api/ are treated identically
+export const API_BASE_URL = rawBase.replace(/\/+$/, '');
 
 /**
  * Helper to get the saved JWT token from localStorage
@@ -35,10 +37,19 @@ async function request(endpoint, options = {}) {
     headers['Authorization'] = `Bearer ${token}`;
   }
 
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-    ...options,
-    headers,
-  });
+  const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  const targetUrl = `${API_BASE_URL}${cleanEndpoint}`;
+
+  let response;
+  try {
+    response = await fetch(targetUrl, {
+      ...options,
+      headers,
+    });
+  } catch (networkError) {
+    console.error(`[API Network Error] Failed to connect to ${targetUrl}:`, networkError);
+    throw new Error(`Unable to connect to the backend server. Please verify your connection or check that the backend is awake.`);
+  }
 
   // Handle 401 Unauthorized
   if (response.status === 401) {
