@@ -180,7 +180,7 @@ export const cartApi = {
 
 // ==================== ORDERS API ====================
 export const orderApi = {
-  getMyOrders: () => request('/orders/my-orders'),
+  getMyOrders: (type = 'all') => request(`/orders/my-orders${type && type !== 'all' ? `?type=${type}` : ''}`),
 
   getById: (id) => request(`/orders/${id}`),
 
@@ -192,6 +192,7 @@ export const orderApi = {
 
   // Admin Only
   getAllOrders: () => request('/orders'),
+  getAllAdmin: () => request('/orders'),
 
   updateStatus: (id, status) =>
     request(`/orders/${id}/status`, {

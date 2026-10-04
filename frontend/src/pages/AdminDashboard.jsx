@@ -50,8 +50,9 @@ export const AdminDashboard = () => {
     try {
       setProductsLoading(true);
       const data = await productApi.getAll();
-      setProducts(data);
+      setProducts(Array.isArray(data) ? data : []);
     } catch (err) {
+      setProducts([]);
       setActionError(err.message || 'Failed to load products');
     } finally {
       setProductsLoading(false);
@@ -62,8 +63,9 @@ export const AdminDashboard = () => {
     try {
       setOrdersLoading(true);
       const data = await orderApi.getAllAdmin();
-      setOrders(data);
+      setOrders(Array.isArray(data) ? data : []);
     } catch (err) {
+      setOrders([]);
       setActionError(err.message || 'Failed to load orders');
     } finally {
       setOrdersLoading(false);
