@@ -167,7 +167,7 @@ export const CartDrawer = ({ isOpen, onClose, onCheckoutSuccess, onOpenAuth }) =
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              {cart.items.map((item) => (
+              {(Array.isArray(cart?.items) ? cart.items : []).map((item) => (
                 <div
                   key={item.id}
                   style={{

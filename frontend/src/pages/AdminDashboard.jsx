@@ -318,7 +318,7 @@ export const AdminDashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredProducts.map((p) => (
+                {(Array.isArray(filteredProducts) ? filteredProducts : []).map((p) => (
                   <tr key={p.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
                     <td style={{ padding: '0.875rem 1rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                       <img
@@ -385,7 +385,7 @@ export const AdminDashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {orders.map((o) => (
+              {(Array.isArray(orders) ? orders : []).map((o) => (
                 <tr key={o.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
                   <td style={{ padding: '0.875rem 1rem' }}>
                     <div style={{ fontWeight: 700, color: '#0f172a' }}>{o.orderNumber}</div>
@@ -399,7 +399,7 @@ export const AdminDashboard = () => {
                   </td>
                   <td style={{ padding: '0.875rem 1rem' }}>
                     <div style={{ fontSize: '0.8125rem', color: '#334155' }}>
-                      {o.items.map((i) => `${i.productName} (${i.quantity}x)`).join(', ')}
+                      {(Array.isArray(o?.items) ? o.items : []).map((i) => `${i.productName} (${i.quantity}x)`).join(', ')}
                     </div>
                   </td>
                   <td style={{ padding: '0.875rem 1rem', fontWeight: 800, color: '#4f46e5' }}>

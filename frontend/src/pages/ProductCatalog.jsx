@@ -36,9 +36,10 @@ export const ProductCatalog = ({
         productApi.getCategories().catch(() => ['Electronics', 'Fashion', 'Home & Office']),
       ]);
 
-      setProducts(productsData);
-      setCategories(['all', ...(categoriesData || [])]);
+      setProducts(Array.isArray(productsData) ? productsData : []);
+      setCategories(['all', ...(Array.isArray(categoriesData) ? categoriesData : ['Electronics', 'Fashion', 'Home & Office'])]);
     } catch (err) {
+      setProducts([]);
       setError(err.message || 'Failed to load products');
     } finally {
       setLoading(false);
@@ -78,7 +79,7 @@ export const ProductCatalog = ({
               Featured Catalog
             </h2>
             <p style={{ color: '#64748b', fontSize: '0.875rem' }}>
-              Showing {products.length} products available for instant order
+              Showing {Array.isArray(products) ? products.length : 0} products available for instant order
             </p>
           </div>
 
@@ -113,7 +114,7 @@ export const ProductCatalog = ({
           paddingBottom: '0.5rem',
           scrollbarWidth: 'none',
         }}>
-          {categories.map((cat) => (
+          {(Array.isArray(categories) ? categories : []).map((cat) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
@@ -191,7 +192,7 @@ export const ProductCatalog = ({
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {products.map((product) => (
+          {(Array.isArray(products) ? products : []).map((product) => (
             <ProductCard
               key={product.id}
               product={product}

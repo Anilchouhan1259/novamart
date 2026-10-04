@@ -236,7 +236,7 @@ export const OrdersPage = ({ onShopNow }) => {
       ) : (
         /* Orders List */
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          {orders.map((order) => (
+          {(Array.isArray(orders) ? orders : []).map((order) => (
             <div
               key={order.id}
               className="card"
@@ -307,7 +307,7 @@ export const OrdersPage = ({ onShopNow }) => {
                   gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
                   gap: '0.75rem'
                 }}>
-                  {order.items.map((item) => (
+                  {(Array.isArray(order?.items) ? order.items : []).map((item) => (
                     <div
                       key={item.id}
                       style={{
